@@ -1,7 +1,8 @@
-import { useRef, useEffect, useContext } from "react";
+import { useRef, useContext } from "react";
 import { currencyFormatter } from "@/lib/utils";
 import { financeContext } from "@/lib/store/finance-context";
 import { authContext } from "@/lib/store/auth-context";
+import { format } from "date-fns-tz";
 
 // Icons
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -83,11 +84,17 @@ function AddIncomeModal({ show, onClose }) {
         <h3 className="text-2xl font-bold">Income History</h3>
 
         {income.map((i) => {
+          const taiwanDate = format(
+            i.createdAt,
+            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+            { timeZone: "Asia/Taipei" }
+          );
+
           return (
             <div className="flex justify-between item-center" key={i.id}>
               <div>
                 <p className="font-semibold">{i.description}</p>
-                <small className="text-xs">{i.createdAt.toISOString()}</small>
+                <small className="text-xs">{taiwanDate}</small>{" "}
               </div>
               <p className="flex items-center gap-2">
                 {currencyFormatter(i.amount)}

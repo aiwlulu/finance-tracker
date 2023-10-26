@@ -4,6 +4,7 @@ import Modal from "@/components/Modal";
 import { currencyFormatter } from "@/lib/utils";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { format } from "date-fns-tz";
 
 function ViewExpenseModal({ show, onClose, expense }) {
   const { deleteExpenseItem, deleteExpenseCategory } =
@@ -48,13 +49,17 @@ function ViewExpenseModal({ show, onClose, expense }) {
       <div>
         <h3 className="my-4 text-2xl">Expense History</h3>
         {expense.items.map((item) => {
+          const taiwanDate = format(
+            item.createdAt.toMillis
+              ? new Date(item.createdAt.toMillis())
+              : item.createdAt,
+            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+            { timeZone: "Asia/Taipei" }
+          );
+
           return (
             <div key={item.id} className="flex items-center justify-between">
-              <small>
-                {item.createdAt.toMillis
-                  ? new Date(item.createdAt.toMillis()).toISOString()
-                  : item.createdAt.toISOString()}
-              </small>
+              <small>{taiwanDate}</small>
               <p className="flex items-center gap-2">
                 {currencyFormatter(item.amount)}
                 <button
