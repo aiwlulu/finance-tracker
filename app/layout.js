@@ -11,6 +11,14 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Loading from "./loading";
 
 export default function RootLayout({ children }) {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  }, []);
+
   return (
     <html lang="en">
       <Head />
@@ -19,9 +27,13 @@ export default function RootLayout({ children }) {
           <FinanceContextProvider>
             <ToastContainer />
             <Nav />
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>{children}</ProtectedRoute>
-            </Suspense>
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <Suspense fallback={<Loading />}>
+                <ProtectedRoute>{children}</ProtectedRoute>
+              </Suspense>
+            )}
           </FinanceContextProvider>
         </AuthContextProvider>
       </body>
