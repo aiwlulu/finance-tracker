@@ -14,7 +14,6 @@ function ViewExpenseModal({ show, onClose, expense }) {
       await deleteExpenseCategory(expense.id);
       toast.success("Expense category deleted successfully!");
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };
@@ -33,7 +32,6 @@ function ViewExpenseModal({ show, onClose, expense }) {
       await deleteExpenseItem(updatedExpense, expense.id);
       toast.success("Expense item removed successfully!");
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };

@@ -36,14 +36,11 @@ function AddExpensesModal({ show, onClose }) {
 
     try {
       await addExpenseItem(selectedCategory, newExpense);
-
-      console.log(newExpense);
       setExpenseAmount("");
       setSelectedCategory(null);
       onClose();
       toast.success("Expense Item Added!");
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };
@@ -57,7 +54,6 @@ function AddExpensesModal({ show, onClose }) {
       setShowAddExpense(false);
       toast.success("Category created!");
     } catch (error) {
-      console.log(error.message);
       toast.error(error.message);
     }
   };
