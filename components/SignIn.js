@@ -64,11 +64,13 @@ function SignIn() {
 
         <div className="px-4 py-4 w-70% mx-auto">
           <h3 className="text-2xl text-center">
-            {isRegistering ? "Register" : "Please sign in to continue"}
+            {isRegistering
+              ? "Please sign up to continue"
+              : "Please sign in to continue"}
           </h3>
 
           <p className="text-xs mt-3 text-center">
-            {isRegistering ? "" : "If you are already a member, easily login"}
+            {isRegistering ? "" : "If you are already a member, easily login!"}
           </p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">

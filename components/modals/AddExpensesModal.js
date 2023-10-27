@@ -49,6 +49,11 @@ function AddExpensesModal({ show, onClose }) {
     const title = titleRef.current.value;
     const color = colorRef.current.value;
 
+    if (title.trim() === "") {
+      toast.error("Title cannot be empty!");
+      return;
+    }
+
     try {
       await addCategory({ title, color, total: 0 });
       setShowAddExpense(false);

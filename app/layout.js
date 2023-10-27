@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,18 +7,11 @@ import Head from "./head";
 import Nav from "@/components/Navigation";
 import FinanceContextProvider from "@/lib/store/finance-context";
 import AuthContextProvider from "@/lib/store/auth-context";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import Loading from "./loading";
 
+const ProtectedRoute = lazy(() => import("@/components/ProtectedRoute"));
+
 export default function RootLayout({ children }) {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
   return (
     <html lang="en">
       <Head />
@@ -27,13 +20,9 @@ export default function RootLayout({ children }) {
           <FinanceContextProvider>
             <ToastContainer />
             <Nav />
-            {isLoading ? (
-              <Loading />
-            ) : (
-              <Suspense fallback={<Loading />}>
-                <ProtectedRoute>{children}</ProtectedRoute>
-              </Suspense>
-            )}
+            <Suspense fallback={<Loading />}>
+              <ProtectedRoute>{children}</ProtectedRoute>
+            </Suspense>
           </FinanceContextProvider>
         </AuthContextProvider>
       </body>
