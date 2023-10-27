@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useEffect } from "react";
 import { authContext } from "@/lib/store/auth-context";
-import SignIn from "@/components/SignIn";
+import Authentication from "@/components/Authentication";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -15,6 +15,6 @@ export default function Home() {
   }, [user]);
 
   if (!user) {
-    return <SignIn />;
+    return <Authentication />;
   }
 }

@@ -4,7 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { toast } from "react-toastify";
 
-function SignIn() {
+function Authentication() {
   const {
     googleLoginHandler,
     registerWithEmailAndPassword,
@@ -158,4 +158,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default Authentication;
