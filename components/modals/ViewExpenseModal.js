@@ -48,31 +48,41 @@ function ViewExpenseModal({ show, onClose, expense }) {
 
       <div>
         <h3 className="my-4 text-2xl">Expense History</h3>
-        {expense.items.map((item) => {
-          const taiwanDate = format(
-            item.createdAt.toMillis
-              ? new Date(item.createdAt.toMillis())
-              : item.createdAt,
-            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
-            { timeZone: "Asia/Taipei" }
-          );
+        {[...expense.items]
+          .sort((a, b) => {
+            const aDate = a.createdAt.toMillis
+              ? a.createdAt.toMillis()
+              : new Date(a.createdAt).getTime();
+            const bDate = b.createdAt.toMillis
+              ? b.createdAt.toMillis()
+              : new Date(b.createdAt).getTime();
+            return bDate - aDate;
+          })
+          .map((item) => {
+            const taiwanDate = format(
+              item.createdAt.toMillis
+                ? new Date(item.createdAt.toMillis())
+                : item.createdAt,
+              "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+              { timeZone: "Asia/Taipei" }
+            );
 
-          return (
-            <div key={item.id} className="flex items-center justify-between">
-              <small>{taiwanDate}</small>
-              <p className="flex items-center gap-2">
-                {currencyFormatter(item.amount)}
-                <button
-                  onClick={() => {
-                    deleteExpenseItemHandler(item);
-                  }}
-                >
-                  <FaRegTrashAlt />
-                </button>
-              </p>
-            </div>
-          );
-        })}
+            return (
+              <div key={item.id} className="flex items-center justify-between">
+                <small>{taiwanDate}</small>
+                <p className="flex items-center gap-2">
+                  {currencyFormatter(item.amount)}
+                  <button
+                    onClick={() => {
+                      deleteExpenseItemHandler(item);
+                    }}
+                  >
+                    <FaRegTrashAlt />
+                  </button>
+                </p>
+              </div>
+            );
+          })}
       </div>
     </Modal>
   );

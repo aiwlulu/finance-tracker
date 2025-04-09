@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, lazy } from "react";
+import React from "react";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -7,9 +7,9 @@ import Head from "./head";
 import Nav from "@/components/Navigation";
 import FinanceContextProvider from "@/lib/store/finance-context";
 import AuthContextProvider from "@/lib/store/auth-context";
+// import Loading from "./accounting/loading";
 import Loading from "./loading";
-
-const ProtectedRoute = lazy(() => import("@/components/ProtectedRoute"));
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function RootLayout({ children }) {
   return (
@@ -20,9 +20,7 @@ export default function RootLayout({ children }) {
           <FinanceContextProvider>
             <ToastContainer />
             <Nav />
-            <Suspense fallback={<Loading />}>
-              <ProtectedRoute>{children}</ProtectedRoute>
-            </Suspense>
+            <ProtectedRoute>{children}</ProtectedRoute>
           </FinanceContextProvider>
         </AuthContextProvider>
       </body>

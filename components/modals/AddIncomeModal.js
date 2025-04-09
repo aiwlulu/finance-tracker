@@ -80,35 +80,44 @@ function AddIncomeModal({ show, onClose }) {
         </button>
       </form>
 
-      <div className="flex flex-col gap-4 mt-6">
+      <div className="flex flex-col gap-4 mt-6 max-h-[calc(30vh-1rem)] overflow-y-auto pr-2">
         <h3 className="text-2xl font-bold">Income History</h3>
 
-        {income.map((i) => {
-          const taiwanDate = format(
-            i.createdAt,
-            "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
-            { timeZone: "Asia/Taipei" }
-          );
-
-          return (
-            <div className="flex justify-between item-center" key={i.id}>
-              <div>
-                <p className="font-semibold">{i.description}</p>
-                <small className="text-xs">{taiwanDate}</small>{" "}
+        {[...income]
+          .sort((a, b) => {
+            const aTime = a.createdAt.toMillis
+              ? a.createdAt.toMillis()
+              : new Date(a.createdAt).getTime();
+            const bTime = b.createdAt.toMillis
+              ? b.createdAt.toMillis()
+              : new Date(b.createdAt).getTime();
+            return bTime - aTime;
+          })
+          .map((i) => {
+            const taiwanDate = format(
+              i.createdAt,
+              "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+              { timeZone: "Asia/Taipei" }
+            );
+            return (
+              <div className="flex justify-between item-center" key={i.id}>
+                <div>
+                  <p className="font-semibold">{i.description}</p>
+                  <small className="text-xs">{taiwanDate}</small>{" "}
+                </div>
+                <p className="flex items-center gap-2">
+                  {currencyFormatter(i.amount)}
+                  <button
+                    onClick={() => {
+                      deleteIncomeEntryHandler(i.id);
+                    }}
+                  >
+                    <FaRegTrashAlt />
+                  </button>
+                </p>
               </div>
-              <p className="flex items-center gap-2">
-                {currencyFormatter(i.amount)}
-                <button
-                  onClick={() => {
-                    deleteIncomeEntryHandler(i.id);
-                  }}
-                >
-                  <FaRegTrashAlt />
-                </button>
-              </p>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </Modal>
   );
